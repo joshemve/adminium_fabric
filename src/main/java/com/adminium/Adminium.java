@@ -21,6 +21,9 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import com.adminium.manager.SafeManager;
+import net.neoforged.neoforge.common.damagesource.DamageContainer;
 
 @Mod(Adminium.MODID)
 public class Adminium {
@@ -123,6 +126,39 @@ public class Adminium {
                 // Freeze all non-player entities
                 else if (!(event.getEntity() instanceof Player)) {
                     event.getEntity().setDeltaMovement(0, 0, 0);
+                }
+            }
+        }
+
+        @SubscribeEvent
+        public static void onLivingIncomingDamage(LivingIncomingDamageEvent event) {
+            if (event.getEntity() instanceof Player player) {
+                if (SafeManager.isSafe(player.getUUID())) {
+                    float currentHealth = player.getHealth();
+                    // Get the damage from the container - this is the original damage amount
+                    float damage = event.getContainer().getOriginalDamage();
+                    
+                    // Calculate what the health would be after damage
+                    float healthAfterDamage = currentHealth - damage;
+                    
+                    // If the damage would kill or bring the player below half a heart
+                    if (healthAfterDamage < 1.0f) {
+                        // Cancel the original damage event
+                        event.setCanceled(true);
+                        
+                        // If current health is above half a heart, apply custom damage to bring them to half a heart
+                        if (currentHealth > 1.0f) {
+                            // Apply damage that brings them to exactly half a heart
+                            float customDamage = currentHealth - 1.0f;
+                            // We need to apply this damage in a way that bypasses our own event handler
+                            // We'll do this by temporarily removing them from safe mode
+                            SafeManager.setSafe(player.getUUID(), false);
+                            player.hurt(event.getContainer().getSource(), customDamage);
+                            SafeManager.setSafe(player.getUUID(), true);
+                        }
+                        // If they're already at or below half a heart, just cancel the damage
+                    }
+                    // If the damage wouldn't kill them, let it through normally
                 }
             }
         }
