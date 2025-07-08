@@ -1,20 +1,13 @@
 package com.adminium.command;
 
-import com.adminium.client.gui.ItemsScreen;
 import com.mojang.brigadier.CommandDispatcher;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
+import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 
 public class ClientCommands {
 
-    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("items")
-                .executes(context -> {
-                    Minecraft.getInstance().execute(() -> {
-                        Minecraft.getInstance().setScreen(new ItemsScreen());
-                    });
-                    return 1;
-                }));
+    public static void register(RegisterClientCommandsEvent event) {
+        CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
+        // Client-side commands are registered here.
     }
-} 
+}
