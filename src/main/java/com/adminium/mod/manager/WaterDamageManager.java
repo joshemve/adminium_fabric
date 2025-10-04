@@ -1,8 +1,8 @@
 package com.adminium.mod.manager;
 
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.util.math.BlockPos;
 import java.util.HashMap;
 import java.util.Map;

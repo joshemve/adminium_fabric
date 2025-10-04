@@ -2,7 +2,7 @@ package com.adminium.mod.manager;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.level.GameType;
+import net.minecraft.world.GameMode;
 import org.slf4j.Logger;
 
 public class InstaBanManager {
@@ -49,7 +49,7 @@ public class InstaBanManager {
         // we shouldn't reach this point as the player should be banned on death
         if (player.getServer().isHardcore()) {
             // Double-check: if somehow a player is trying to respawn in hardcore with InstaBan on, ban them
-            if (player.gameMode.getGameModeForPlayer() == GameType.SPECTATOR) {
+            if (player.gameMode.getGameModeForPlayer() == GameMode.SPECTATOR) {
                 LOGGER.warn("PlayerEntity {} somehow reached spectator mode in hardcore with InstaBan enabled, banning now", player.getName().getString());
                 
                 BanManager.addBan(

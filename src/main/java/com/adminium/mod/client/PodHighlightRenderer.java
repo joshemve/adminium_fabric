@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 @OnlyIn(Dist.CLIENT)
 public class PodHighlightRenderer {
@@ -30,7 +30,7 @@ public class PodHighlightRenderer {
         }
 
         PoseStack poseStack = event.getPoseStack();
-        Vec3 cameraPos = mc.gameRenderer.getMainCamera().getPosition();
+        Vec3d cameraPos = mc.gameRenderer.getMainCamera().getPosition();
         MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
 
         for (BlockPos pos : PodManager.getPods(mc.level.dimension())) {

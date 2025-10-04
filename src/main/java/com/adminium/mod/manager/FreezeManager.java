@@ -1,14 +1,14 @@
 package com.adminium.mod.manager;
 
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.util.math.Vec3d;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class FreezeManager {
     private static boolean frozen = false;
-    private static final Map<UUID, Vec3> frozenPositions = new HashMap<>();
+    private static final Map<UUID, Vec3d> frozenPositions = new HashMap<>();
 
     public static boolean isFrozen() {
         return frozen;
@@ -28,7 +28,7 @@ public class FreezeManager {
         }
     }
     
-    public static Vec3 getFrozenPosition(UUID playerUUID) {
+    public static Vec3d getFrozenPosition(UUID playerUUID) {
         return frozenPositions.get(playerUUID);
     }
     

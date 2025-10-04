@@ -2,23 +2,22 @@ package com.adminium.mod.event;
 
 import com.adminium.mod.manager.BarrelLootManager;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.block.BarrelBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.state.properties.BlockStateProperties;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.state.property.Properties;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
 import java.util.Random;
 
-@Mod.EventBusSubscriber
 public class BarrelLootHandler {
     private static final Random RANDOM = new Random();
 
@@ -108,7 +107,7 @@ public class BarrelLootHandler {
         level.playSound(null, pos, SoundEvents.BARREL_OPEN, SoundSource.BLOCKS, 1.0f, 0.9f);
 
         // Spawn particles
-        Vec3 particlePos = Vec3.atCenterOf(pos).add(0, 0.5, 0);
+        Vec3d particlePos = Vec3d.atCenterOf(pos).add(0, 0.5, 0);
 
         // Happy villager particles to indicate loot
         for (int i = 0; i < 10; i++) {
